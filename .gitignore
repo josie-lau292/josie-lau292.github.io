@@ -1,0 +1,8 @@
+node_modules
+.next
+out
+
+# Local project instructions; do not publish these with the site.
+**/AGENTS.md
+**/DESIGN.md
+**/PRODUCT.md
