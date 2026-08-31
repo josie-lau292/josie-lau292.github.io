@@ -8,13 +8,12 @@ export const metadata = {
     'Approachable notes on statistics, research methods, and the stories behind published papers.',
 };
 
-function PostList({ posts, latest = false }: { posts: Post[]; latest?: boolean }) {
+function PostList({ posts }: { posts: Post[] }) {
   return (
     <ol className="post-list">
-      {posts.map((post, index) => (
+      {posts.map((post) => (
         <li key={post.slug}>
           <div className="post-meta">
-            {latest && index === 0 ? <strong>Latest</strong> : null}
             <span>{post.category === 'research' ? 'Research' : 'Statistics'}</span>
             <time dateTime={post.date}>{formatPostDate(post.date)}</time>
             <span>{post.readTime}</span>
@@ -81,12 +80,12 @@ export default function Blog() {
         </nav>
       </section>
 
-      <section className="content-section" aria-labelledby="latest-notes">
+      <section className="content-section latest-notes-section" aria-labelledby="latest-notes">
         <div className="section-heading-row">
           <h2 id="latest-notes">Latest notes</h2>
           <span>{String(latestPosts.length).padStart(2, '0')}</span>
         </div>
-        <PostList posts={latestPosts} latest />
+        <PostList posts={latestPosts} />
       </section>
 
       <section className="content-section topic-archive" id="statistics" aria-labelledby="statistics-title">

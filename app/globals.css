@@ -630,12 +630,6 @@ button {
   text-transform: none;
 }
 
-.post-meta strong {
-  color: var(--accent);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-
 .post-list h3 a {
   display: inline;
   min-height: 44px;
@@ -645,6 +639,10 @@ button {
 
 .post-list h3 a:hover {
   text-decoration-color: currentColor;
+}
+
+.latest-notes-section .post-list {
+  margin-top: 32px;
 }
 
 .section-rail,
