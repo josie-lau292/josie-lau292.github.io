@@ -1,3 +1,4 @@
+import { pageMetadata } from '@/lib/seo';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -18,7 +19,7 @@ export async function generateMetadata({ params }: PostPageProps): Promise<Metad
   const { slug } = await params;
   const post = getPost(slug);
   if (!post) return {};
-  return { title: post.title, description: post.excerpt };
+  return pageMetadata({ path: `/blog/${post.slug}/`, title: post.title, description: post.excerpt, publishedTime: post.date });
 }
 
 export default async function PostPage({ params }: PostPageProps) {

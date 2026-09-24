@@ -1,11 +1,13 @@
+import { pageMetadata } from '@/lib/seo';
 import Link from 'next/link';
 import { PageFrame } from '@/components/PageFrame';
 import { teachingExperience, teachingTopics } from '@/data/site';
 
-export const metadata = {
+export const metadata = pageMetadata({
+  path: '/teaching/',
   title: 'Teaching',
   description: 'Josie Lau’s teaching experience and approachable statistics resources for psychology students.',
-};
+});
 
 export default function Teaching() {
   return (

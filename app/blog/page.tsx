@@ -1,12 +1,14 @@
+import { pageMetadata } from '@/lib/seo';
 import Link from 'next/link';
 import { PageFrame } from '@/components/PageFrame';
 import { formatPostDate, getPosts, type Post } from '@/lib/posts';
 
-export const metadata = {
+export const metadata = pageMetadata({
+  path: '/blog/',
   title: 'Writing',
   description:
     'Approachable notes on statistics, research methods, and the stories behind published papers.',
-};
+});
 
 function PostList({ posts }: { posts: Post[] }) {
   return (

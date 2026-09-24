@@ -1,9 +1,16 @@
+import { pageMetadata, profileGraph } from '@/lib/seo';
 import Link from 'next/link';
 import { ContactRail } from '@/components/ContactRail';
 import { HomeSectionRail, type HomeMilestone } from '@/components/HomeSectionRail';
 import { ScrollReveal } from '@/components/ScrollReveal';
 import { publications, site, teachingTopics, timeline } from '@/data/site';
 import { formatPostDate, getPosts } from '@/lib/posts';
+
+export const metadata = pageMetadata({
+  path: '/',
+  title: `${site.name} — Psychology researcher and educator`,
+  description: site.description,
+});
 
 const milestones: HomeMilestone[] = [
   { id: 'profile', label: 'Profile' },
@@ -15,9 +22,11 @@ const milestones: HomeMilestone[] = [
 
 export default function Home() {
   const latest = getPosts().slice(0, 2);
+  const graph = profileGraph();
 
   return (
     <div className="home-frame">
+      {graph && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(graph).replace(/</g, '\\u003c') }} />}
       <div className="home-left-rail">
         <HomeSectionRail milestones={milestones} />
       </div>

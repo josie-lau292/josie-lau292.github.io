@@ -1,10 +1,12 @@
+import { pageMetadata } from '@/lib/seo';
 import { PageFrame } from '@/components/PageFrame';
 import { personalNotes, site } from '@/data/site';
 
-export const metadata = {
+export const metadata = pageMetadata({
+  path: '/about/',
   title: 'About',
   description: 'About psychology researcher and educator Josie Lau.',
-};
+});
 
 export default function About() {
   return (
@@ -20,7 +22,6 @@ export default function About() {
         <p className="lead-paragraph">
           Outside work, I’m usually planning a trip, looking for the best thing to eat nearby, or taking photographs of the details that make a place feel memorable.
         </p>
-        
         <p>
           I’m drawn to travel for its pauses as much as its movement: unfamiliar streets, shared meals, and the chance to see ordinary things with fresh attention. At home, I share life with my cat, who is very clear about when it is time to step away from a screen.
         </p>

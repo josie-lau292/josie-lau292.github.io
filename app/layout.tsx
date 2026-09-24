@@ -3,8 +3,14 @@ import './globals.css';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { site } from '@/data/site';
+import { publicUrl, siteOrigin } from '@/lib/seo';
 
 export const metadata: Metadata = {
+  metadataBase: siteOrigin ? new URL(publicUrl('/')!) : undefined,
+  robots: siteOrigin ? undefined : { index: false, follow: false },
+  verification: process.env.GOOGLE_SITE_VERIFICATION
+    ? { google: process.env.GOOGLE_SITE_VERIFICATION }
+    : undefined,
   title: {
     default: `${site.name} — Psychology researcher and educator`,
     template: `%s — ${site.shortName}`,

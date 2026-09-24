@@ -1,12 +1,14 @@
+import { pageMetadata } from '@/lib/seo';
 import Link from 'next/link';
 import { PageFrame } from '@/components/PageFrame';
 import { publications, researchProjects, site, timeline } from '@/data/site';
 
-export const metadata = {
+export const metadata = pageMetadata({
+  path: '/research/',
   title: 'Research',
   description:
     'Publications and research by Josie Lau on youth mental health, anxiety prevention, and culturally responsive program evaluation.',
-};
+});
 
 export default function Research() {
   return (
