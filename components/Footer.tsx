@@ -1,7 +1,7 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import { site } from '@/data/site';
+import { collaboration, site } from '@/data/site';
 
 export function Footer() {
   const pathname = usePathname();
@@ -12,7 +12,8 @@ export function Footer() {
       {isHome ? (
         <div className="footer-invitation">
           <p className="eyebrow">Contact</p>
-          <h2>For research questions, teaching, or collaboration.</h2>
+          <h2>{collaboration.title}</h2>
+          <p className="footer-invitation-copy">{collaboration.invitation}</p>
           <a className="arrow-link" href={`mailto:${site.email}`}>
             Email Josie <span aria-hidden="true">→</span>
           </a>

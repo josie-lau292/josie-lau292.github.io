@@ -1,9 +1,10 @@
 import { pageMetadata, profileGraph } from '@/lib/seo';
 import Link from 'next/link';
 import { ContactRail } from '@/components/ContactRail';
+import { PersonalImage } from '@/components/PersonalImage';
 import { HomeSectionRail, type HomeMilestone } from '@/components/HomeSectionRail';
 import { ScrollReveal } from '@/components/ScrollReveal';
-import { publications, site, teachingTopics, timeline } from '@/data/site';
+import { home, photos, research, site, timeline } from '@/data/site';
 import { formatPostDate, getPosts } from '@/lib/posts';
 
 export const metadata = pageMetadata({
@@ -14,10 +15,10 @@ export const metadata = pageMetadata({
 
 const milestones: HomeMilestone[] = [
   { id: 'profile', label: 'Profile' },
-  { id: 'research', label: 'Research' },
+  { id: 'research', label: 'Evaluation' },
   { id: 'teaching', label: 'Teaching' },
   { id: 'experience', label: 'Experience' },
-  { id: 'writing', label: 'Writing' },
+  { id: 'writing', label: 'Notes' },
 ];
 
 export default function Home() {
@@ -33,64 +34,30 @@ export default function Home() {
 
       <div className="home-reading-column">
         <header id="profile" className="home-hero">
-          {/* <p className="eyebrow">Hello, I’m Josie.</p> */}
-          <h1>Good evidence should not just inform what we know, but shape what we do.</h1>
+          <div className="mobile-portrait"><PersonalImage photo={photos.portrait} eager /></div>
+          <h1>Hi, I’m Josie.</h1>
           <div className="home-bio">
-            <p>
-              Hi, I’m {site.name}, a {site.role} at {site.institution} passionate about using research 
-              and data to better understand and support the mental health and wellbeing of children and young people.
-              My work sits at the meeting point of youth mental health, program evaluation, and
-              individual-participant-data meta-analysis.
-            </p>
-            <p>
-              I also teach quantitative research methods with an emphasis on clear
-              questions, careful interpretation, and practical confidence.
-            </p>
+            <p>{home.introduction}</p>
+            <p className="home-role">{site.role} · {site.institution}</p>
           </div>
-          <Link className="primary-action" href="/research/">
-            Explore my research <span aria-hidden="true">→</span>
-          </Link>
+          <div className="home-intro-links">
+            <Link className="primary-action" href="/research/">Explore my work <span aria-hidden="true">→</span></Link>
+          </div>
         </header>
 
         <div className="mobile-profile-rail">
-          <ContactRail />
+          <ContactRail compact />
         </div>
 
         <div className="home-sections">
           <div id="research" className="anchor-section">
             <ScrollReveal>
               <header className="section-header">
-                <p className="eyebrow">Publications</p>
-                <h2>Recent research</h2>
+                <h2>{research.title}</h2>
               </header>
-              <ol className="research-list publication-home-list">
-                {publications.map((publication, index) => (
-                  <li key={publication.doi}>
-                    <p className="item-index" aria-hidden="true">
-                      {String(index + 1).padStart(2, '0')}
-                    </p>
-                    <div>
-                      <p className="publication-meta">
-                        {publication.year} · {publication.venue}
-                      </p>
-                      <h3>
-                        <Link href={`/research/#publication-${index + 1}`}>
-                          {publication.title}
-                        </Link>
-                      </h3>
-                      <p>{publication.homeSummary}</p>
-                      <Link
-                        className="inline-note-link"
-                        href={`/blog/${publication.noteSlug}/`}
-                      >
-                        Read the research note <span aria-hidden="true">→</span>
-                      </Link>
-                    </div>
-                  </li>
-                ))}
-              </ol>
+              <p className="home-section-copy">{home.research}</p>
               <Link className="arrow-link" href="/research/">
-                View research <span aria-hidden="true">→</span>
+                Evaluation experience and research <span aria-hidden="true">→</span>
               </Link>
             </ScrollReveal>
           </div>
@@ -98,23 +65,11 @@ export default function Home() {
           <div id="teaching" className="anchor-section">
             <ScrollReveal>
               <header className="section-header">
-                <p className="eyebrow">Teaching</p>
-                <h2>Statistics as a way of thinking</h2>
+                <h2>Teaching</h2>
               </header>
-              <div className="teaching-overview">
-                <p>
-                  I teach statistics slowly enough to understand and clearly enough
-                  to use—helping students move from procedures to thoughtful questions
-                  about their data.
-                </p>
-                <ol>
-                  {teachingTopics.slice(0, 3).map((topic) => (
-                    <li key={topic.title}>{topic.title}</li>
-                  ))}
-                </ol>
-              </div>
+              <p className="home-section-copy">{home.teaching}</p>
               <Link className="arrow-link" href="/teaching/">
-                Teaching and resources <span aria-hidden="true">→</span>
+                How I teach <span aria-hidden="true">→</span>
               </Link>
             </ScrollReveal>
           </div>
@@ -122,8 +77,7 @@ export default function Home() {
           <div id="experience" className="anchor-section">
             <ScrollReveal>
               <header className="section-header">
-                <p className="eyebrow">Experience and education</p>
-                <h2>Resume</h2>
+                <h2>Experience and education</h2>
               </header>
               <ol className="timeline">
                 {timeline.map((item) => (
@@ -150,8 +104,7 @@ export default function Home() {
           <div id="writing" className="anchor-section">
             <ScrollReveal>
               <header className="section-header">
-                <p className="eyebrow">Writing</p>
-                <h2>Recent writing</h2>
+                <h2>Recent notes</h2>
               </header>
               <ol className="post-list post-list--compact">
                 {latest.map((post) => (

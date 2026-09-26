@@ -3,13 +3,13 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
-import { site } from '@/data/site';
+import { research, site } from '@/data/site';
 import { ThemeToggle } from './ThemeToggle';
 
 const links = [
-  ['Research', '/research/'],
+  [research.title, '/research/'],
   ['Teaching', '/teaching/'],
-  ['Writing', '/blog/'],
+  ['Notes', '/blog/'],
   ['About', '/about/'],
 ] as const;
 
@@ -45,7 +45,7 @@ export function Header() {
           onClick={() => setIsOpen(false)}
         >
           {site.shortName}
-          <span>Psychology · Research · Teaching</span>
+          <span>Psychology · Evaluation · Education</span>
         </Link>
 
         <div className="header-actions">

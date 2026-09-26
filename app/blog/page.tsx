@@ -1,25 +1,23 @@
+import { notes, pageInvitations } from '@/data/site';
+import { NextStep } from '@/components/NextStep';
 import { pageMetadata } from '@/lib/seo';
 import Link from 'next/link';
+import { CategoryTabs } from '@/components/CategoryTabs';
 import { PageFrame } from '@/components/PageFrame';
-import { formatPostDate, getPosts, type Post } from '@/lib/posts';
+import { getPosts, noteCategories, type NoteCategory, type Post } from '@/lib/posts';
 
 export const metadata = pageMetadata({
   path: '/blog/',
-  title: 'Writing',
-  description:
-    'Approachable notes on statistics, research methods, and the stories behind published papers.',
+  title: 'Notes',
+  description: 'Short notes by Josie Lau exploring research, statistics, psychological interventions, and questions from teaching, with space for everyday reflections on anxiety.',
 });
 
 function PostList({ posts }: { posts: Post[] }) {
   return (
-    <ol className="post-list">
-      {posts.map((post) => (
+    <ol className="post-list notes-list">
+      {posts.map((post, index) => (
         <li key={post.slug}>
-          <div className="post-meta">
-            <span>{post.category === 'research' ? 'Research' : 'Statistics'}</span>
-            <time dateTime={post.date}>{formatPostDate(post.date)}</time>
-            <span>{post.readTime}</span>
-          </div>
+          <p className="item-index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</p>
           <div>
             <h3>
               <Link href={`/blog/${post.slug}/`}>
@@ -34,89 +32,41 @@ function PostList({ posts }: { posts: Post[] }) {
   );
 }
 
-export default function Blog() {
+export default function Notes() {
   const posts = getPosts();
-  const statisticsPosts = posts.filter((post) => post.category === 'statistics');
-  const researchPosts = posts.filter((post) => post.category === 'research');
-  const latestPosts = posts.slice(0, 4);
+  const categories = (Object.keys(noteCategories) as NoteCategory[]).map((category) => ({
+    ...noteCategories[category],
+    key: category,
+    posts: posts.filter((post) => post.category === category),
+  }));
 
   return (
     <PageFrame
-      eyebrow="Writing"
-      title="Ideas, methods, and the work behind the papers."
-      description="Approachable notes for psychology students and curious researchers—from statistical foundations to closer looks at published studies."
-      facts={[
-        { label: 'Notes', value: `${posts.length} published` },
-        { label: 'Topics', value: 'Statistics and research' },
-      ]}
+      title="Notes"
+      description={notes.introduction}
+      highlight={notes.highlight}
     >
-      <section className="content-section writing-topics" aria-labelledby="browse-topics">
-        <div className="section-heading-row">
-          <h2 id="browse-topics">Browse by topic</h2>
-          <span>02</span>
-        </div>
-
-        <nav className="writing-topic-index" aria-label="Writing topics">
-          <a href="#statistics">
-            <span className="topic-number">01</span>
-            <h3>Statistics, gently</h3>
-            <p>
-              Clear introductions to common analyses, with an emphasis on intuition and careful
-              interpretation.
-            </p>
-            <span className="topic-link">
-              Explore {statisticsPosts.length} notes <span aria-hidden="true">↓</span>
-            </span>
-          </a>
-          <a href="#research-notes">
-            <span className="topic-number">02</span>
-            <h3>Inside the research</h3>
-            <p>
-              Plain-language guides to the questions, findings, and limitations behind published
-              studies.
-            </p>
-            <span className="topic-link">
-              Explore {researchPosts.length} notes <span aria-hidden="true">↓</span>
-            </span>
-          </a>
-        </nav>
-      </section>
-
-      <section className="content-section latest-notes-section" aria-labelledby="latest-notes">
-        <div className="section-heading-row">
-          <h2 id="latest-notes">Latest notes</h2>
-          <span>{String(latestPosts.length).padStart(2, '0')}</span>
-        </div>
-        <PostList posts={latestPosts} />
-      </section>
-
-      <section className="content-section topic-archive" id="statistics" aria-labelledby="statistics-title">
-        <div className="section-heading-row">
-          <h2 id="statistics-title">Statistics, gently</h2>
-          <span>{String(statisticsPosts.length).padStart(2, '0')}</span>
-        </div>
-        <p className="section-introduction">
-          Foundations for reading data and choosing analyses without losing sight of the research
-          question.
-        </p>
-        <PostList posts={statisticsPosts} />
-      </section>
-
-      <section
-        className="content-section topic-archive"
-        id="research-notes"
-        aria-labelledby="research-notes-title"
-      >
-        <div className="section-heading-row">
-          <h2 id="research-notes-title">Inside the research</h2>
-          <span>{String(researchPosts.length).padStart(2, '0')}</span>
-        </div>
-        <p className="section-introduction">
-          A closer look at what each study asked, what it found, and where the evidence still needs
-          to grow.
-        </p>
-        <PostList posts={researchPosts} />
-      </section>
+      <CategoryTabs
+        label="Notes categories"
+        categories={categories.map((category) => ({
+          id: category.anchor,
+          label: category.title,
+          anchors: [`${category.anchor}-title`],
+          content: (
+            <section className="content-section topic-archive" id={category.anchor} aria-labelledby={`${category.anchor}-title`} key={category.key}>
+              <div className="section-heading-row">
+                <h2 id={`${category.anchor}-title`}>{category.title}</h2>
+              </div>
+              {category.posts.length ? <PostList posts={category.posts} /> : (
+                <div className="editorial-copy">
+                  <p>{category.description} I’m considering a few pieces for this space.</p>
+                </div>
+              )}
+            </section>
+          ),
+        }))}
+      />
+      <NextStep invitation={pageInvitations.notes} />
     </PageFrame>
   );
 }

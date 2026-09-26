@@ -1,16 +1,10 @@
-import { profileFacts, site } from '@/data/site';
+import { photos, site } from '@/data/site';
+import { PersonalImage } from './PersonalImage';
 
-export function ContactRail() {
+export function ContactRail({ compact = false }: { compact?: boolean }) {
   return (
     <aside className="profile-rail" aria-label="Profile details">
-      <dl>
-        {profileFacts.map((fact) => (
-          <div key={fact.label}>
-            <dt>{fact.label}</dt>
-            <dd>{fact.value}</dd>
-          </div>
-        ))}
-      </dl>
+      {!compact && <PersonalImage photo={photos.portrait} eager />}
       <div className="elsewhere">
         <p>Elsewhere</p>
         <a href={`mailto:${site.email}`}>Email</a>

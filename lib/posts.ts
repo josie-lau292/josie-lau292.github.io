@@ -3,13 +3,36 @@ import path from 'path';
 import matter from 'gray-matter';
 
 const postsDirectory = path.join(process.cwd(), 'content/blog');
+export const noteCategories = {
+  research: {
+    title: 'Research & psychology',
+    label: 'Research note',
+    anchor: 'research-notes',
+    description: 'Notes on research papers, psychological interventions, and the questions behind them.',
+  },
+  statistics: {
+    title: 'Statistics & research methods',
+    label: 'Statistics note',
+    anchor: 'statistics',
+    description: 'Ways into statistical ideas and research methods, with examples to think through at your own pace.',
+  },
+  anxiety: {
+    title: 'Anxiety in everyday life',
+    label: 'Everyday anxiety note',
+    anchor: 'everyday-anxiety',
+    description: 'Short reflections on experiences that can feel strangely familiar, and what psychology can help us understand about them.',
+  },
+} as const;
+
+export type NoteCategory = keyof typeof noteCategories;
+
 export type Post = {
   slug: string;
   title: string;
   excerpt: string;
   date: string;
   readTime: string;
-  category: 'statistics' | 'research';
+  category: NoteCategory;
   publicationId?: string;
   content: string;
 };
@@ -33,7 +56,7 @@ export function getPosts(): Post[] {
         excerpt: String(parsed.data.excerpt),
         date: String(parsed.data.date),
         readTime: String(parsed.data.readTime),
-        category: parsed.data.category === 'research' ? 'research' : 'statistics',
+        category: parsed.data.category === 'anxiety' ? 'anxiety' : parsed.data.category === 'research' ? 'research' : 'statistics',
         publicationId: parsed.data.publicationId
           ? String(parsed.data.publicationId)
           : undefined,

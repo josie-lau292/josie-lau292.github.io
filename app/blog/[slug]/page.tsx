@@ -5,7 +5,7 @@ import { notFound } from 'next/navigation';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { PageFrame } from '@/components/PageFrame';
-import { formatPostDate, getPost, getPosts } from '@/lib/posts';
+import { formatPostDate, getPost, getPosts, noteCategories } from '@/lib/posts';
 
 export function generateStaticParams() {
   return getPosts().map((post) => ({ slug: post.slug }));
@@ -30,7 +30,7 @@ export default async function PostPage({ params }: PostPageProps) {
   return (
     <PageFrame
       article
-      eyebrow={post.category === 'research' ? 'Research note' : 'Statistics note'}
+      eyebrow={noteCategories[post.category].label}
       title={post.title}
       description={post.excerpt}
       facts={[
@@ -43,7 +43,7 @@ export default async function PostPage({ params }: PostPageProps) {
       </div>
       <nav className="article-return" aria-label="Article navigation">
         <Link className="arrow-link" href="/blog/">
-          <span aria-hidden="true">←</span> All writing
+          <span aria-hidden="true">←</span> All notes
         </Link>
       </nav>
     </PageFrame>

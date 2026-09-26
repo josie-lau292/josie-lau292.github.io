@@ -1,52 +1,49 @@
+import { NextStep } from '@/components/NextStep';
 import { pageMetadata } from '@/lib/seo';
 import { PageFrame } from '@/components/PageFrame';
-import { personalNotes, site } from '@/data/site';
+import { PersonalImage } from '@/components/PersonalImage';
+import { about, pageInvitations, photos } from '@/data/site';
 
 export const metadata = pageMetadata({
   path: '/about/',
   title: 'About',
-  description: 'About psychology researcher and educator Josie Lau.',
+  description: 'Josie Lau on moving from Hong Kong to Australia, finding her way into teaching and research, and the quieter interests outside her work.',
 });
 
 export default function About() {
   return (
     <PageFrame
-      eyebrow="About"
-      title="A researcher, teacher, and collector of small good things."
-      facts={[
-        { label: 'Based in', value: site.location },
-        { label: 'Work', value: 'Research and teaching' },
-      ]}
+      title="About me"
     >
       <div className="about-copy">
-        <p className="lead-paragraph">
-          Outside work, I’m usually planning a trip, looking for the best thing to eat nearby, or taking photographs of the details that make a place feel memorable.
-        </p>
-        <p>
-          I’m drawn to travel for its pauses as much as its movement: unfamiliar streets, shared meals, and the chance to see ordinary things with fresh attention. At home, I share life with my cat, who is very clear about when it is time to step away from a screen.
-        </p>
-        <p>
-          This site is a quiet place to share research, teaching materials, and a little of the life around them.
-        </p>
+        {about.story.map((paragraph, index) => (
+          <p className={index === 0 ? 'lead-paragraph' : undefined} key={paragraph}>{paragraph}</p>
+        ))}
       </div>
 
       <section className="content-section" aria-labelledby="outside-work">
-        <div className="section-heading-row">
-          <h2 id="outside-work">Outside work</h2>
+        <div className="section-heading-row"><h2 id="outside-work">Outside work</h2></div>
+        <div className="editorial-copy">
+          {about.interests.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
         </div>
-        <dl className="personal-notes">
-          {personalNotes.map((note) => (
-            <div key={note.label}>
-              <dt>{note.label}</dt>
-              <dd>{note.text}</dd>
-            </div>
+        <div className="personal-photo-pair">
+          {[photos.hongKong, photos.italy].map((photo) => (
+            <figure key={photo.src}>
+              <PersonalImage photo={photo} />
+              <figcaption>{photo.caption}</figcaption>
+            </figure>
           ))}
-        </dl>
+        </div>
       </section>
 
-      <a className="primary-action" href={`mailto:${site.email}`}>
-        Get in touch <span aria-hidden="true">→</span>
-      </a>
+      <section className="content-section" aria-labelledby="anxiety-education">
+        <div className="section-heading-row"><h2 id="anxiety-education">Psychology beyond university</h2></div>
+        <div className="editorial-copy">
+          {about.instagram.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+        </div>
+      </section>
+
+      <NextStep invitation={pageInvitations.about} />
     </PageFrame>
   );
 }
